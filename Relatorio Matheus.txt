@@ -1,0 +1,5 @@
+-Não sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a lógica primeiro.
+-É necessário organizar cada função em uma função separada, sem ser tudo no main. Estou com dificuldade nisso.
+-Deve ter uma forma melhor de conectar as 5 dicas às 3 possíveis palavras
+-Está dificil de ler
+-Estou tentando descobrir a quantidade de caracteres
