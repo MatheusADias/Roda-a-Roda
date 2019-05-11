@@ -1,5 +1,8 @@
--N„o sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a lÛgica primeiro.
--… necess·rio organizar cada funÁ„o em uma funÁ„o separada, sem ser tudo no main. Estou com dificuldade nisso.
--Deve ter uma forma melhor de conectar as 5 dicas ‡s 3 possÌveis palavras
--Est· dificil de ler
+Relat√≥rio:
+-N√£o sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a l√≥gica primeiro.
+-√â necess√°rio organizar cada fun√ß√£o em uma fun√ß√£o separada, sem ser tudo no main. Estou com dificuldade nisso.
+-Deve ter uma forma melhor de conectar as 5 dicas √†s 3 poss√≠veis palavras
+-Est√° dificil de ler
 -Estou tentando descobrir a quantidade de caracteres
+-Colocar vari√°veis dentro de fun√ß√µes espec√≠ficas
+-Tem que arrumar alguma forma de transformar a palavra escolhida em uma vari√°vel
