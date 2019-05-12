@@ -1,9 +1,9 @@
 /*
-RelatÛrio:
--N„o sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a lÛgica primeiro.
--… necess·rio organizar cada funÁ„o em uma funÁ„o separada, sem ser tudo no main. Estou com dificuldade nisso.
--Deve ter uma forma melhor de conectar as 5 dicas ‡s 3 possÌveis palavras
--Est· dificil de ler
+Relat√≥rio:
+-N√£o sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a l√≥gica primeiro.
+-√â necess√°rio organizar cada fun√ß√£o em uma fun√ß√£o separada, sem ser tudo no main. Estou com dificuldade nisso.
+-Deve ter uma forma melhor de conectar as 5 dicas √†s 3 poss√≠veis palavras
+-Est√° dificil de ler
 -Estou tentando descobrir a quantidade de caracteres
 
 */
@@ -23,9 +23,9 @@ setlocale(LC_ALL, "Portuguese");
 float jogador1=0, jogador2=0, jogador3=0;
 int i, sorteio,sorteiopalavras,palavrasorteada;
 char vetpalavras[3][17]; //tem que ter isso
-char pista[5][128] = {"Vegetal", "AutomÛvel", "Cozinha", "RÈptil", "MamÌfero"};
+char pista[5][128] = {"Vegetal", "Autom√≥vel", "Cozinha", "R√©ptil", "Mam√≠fero"};
 
-//forma que eu achei para conectar as 5 dicas ‡s 3 palavras
+//forma que eu achei para conectar as 5 dicas √†s 3 palavras
 
 char palavras1[3][17] = {"ACELGA", "ALFACE"};
 char palavras2[3][17] = {"MOTOR", "EMBREAGEM", "ESCAPAMENTO"};
@@ -35,10 +35,10 @@ char palavras5[3][17] = {"BALEIA", "MACACO"};
 
 //sorteio
 
-	srand(time(NULL)); // isso È necess·rio para usar a funÁ„o rand
-	sorteio = rand()%5; //sorteio recebe um num aleatÛrio entre 0 e 5, que vai ser usado para sortear um vetor da matriz pista
+	srand(time(NULL)); // isso √© necess√°rio para usar a fun√ß√£o rand
+	sorteio = rand()%5; //sorteio recebe um num aleat√≥rio entre 0 e 5, que vai ser usado para sortear um vetor da matriz pista
 
-	printf("\t\t\t\t\tA palavra est· associada com: %s\n\n", pista[sorteio], sorteio);
+	printf("\t\t\t\t\tA palavra est√° associada com: %s\n\n", pista[sorteio], sorteio);
 
 
 //mostrar dinheiro dos jogadores
