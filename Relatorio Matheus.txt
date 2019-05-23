@@ -1,6 +1,0 @@
-Relatório:
--Não sei como fazer o arquivo PALAVRAS.DAT, portanto estou desenvolvendo a lógica primeiro.
--É necessário organizar cada função em uma função separada, sem ser tudo no main. Estou com dificuldade nisso.
--Deve ter uma forma melhor de conectar as 5 dicas às 3 possíveis palavras
--Estou tentando descobrir a quantidade de caracteres
--Peguei um código de um jogo da forca e estou tentando implementá-lo ao trabalho. Porém estou com dificuldade em fazer loops com [i], pois os arrays tem dois vetores (um para quantidade de palavras e outro para quantidade de letras).
