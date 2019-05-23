@@ -63,6 +63,8 @@ main(){
 		fflush(stdin);
 		//entrar em loop até digitar letra
 		scanf("%c", &letraescolhida);
+		if (letraescolhida <= 'z' && letraescolhida >= 'a') 
+			letraescolhida = letraescolhida - 32;
 		acerto = verificaLetra (vetpalavras,palavraDescoberta,letraescolhida,qtddPalav);
 		if (acerto>0) {
 			jogador1+=rodar*acerto;
