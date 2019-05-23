@@ -1,3 +1,20 @@
+/*
+Relatório:
+
+-Acho que você estava tendo algum problema com a lógica de captar as palavras com as strings. 
+Pensei que poderíamos diminuir essa preocupação trabalhando para, no início, apenas uma dica com três palavras.
+Quando a lógica daqui funcionar a gente acrescenta o sorteio de outras dicas 
+(até porque acredito que a lógica vai ser bem diferente quando tivermos o arquivo DAT)
+
+-Coloquei as funções separadas da main. Dá uma olhada, qualquer dúvida a gente vai se falando.
+
+-Acho que vai ser mais fácil de passarmos a rodada para o próximo jogador se os placares forem um vetor, ao invés de 3 variáveis separadas.
+
+-Os comentários que eu fiz ao longo do programa são tanto pra explicar (quando estão na frente de um código) 
+quanto para sinalizar o que ainda precisa fazer (quando estão em uma linha vazia)
+
+*/
+
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -5,64 +22,68 @@
 #include <string.h>
 
 float premios(void);
-void prepara(char[][17],char[][17],int);
-void placar (char[],char[][17],int,float,float,float);
+int prepara(char[][17],char[][17],int);
+void placar (char[],char[][17],int,float[]);
 int verificaLetra (char[][17], char[][17], char, int);
 
 main(){
 
 	setlocale(LC_ALL, "Portuguese");
 
-	float jogador1=0, jogador2=0, jogador3=0, rodar;
-	int i, j, sorteio,sorteiopalavras, qtddPalav=3, acerto;
+	float jogador[3]= {0,0,0}, rodar;
+	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0;
 	char vetpalavras[3][17] = {"MOTOR", "EMBREAGEM","ESCAPAMENTO"}, palavraDescoberta[3][17];
 	char pista[17] = {"Automóvel"}, letraescolhida;
 	
 	//futuramente adicionar o sorteio da pista
 
-	prepara(vetpalavras,palavraDescoberta,qtddPalav);
+	totalLetras = prepara(vetpalavras,palavraDescoberta,qtddPalav);
 	
-	//acho que aqui vai iniciar um loop da rodada 
-	placar(pista,palavraDescoberta,qtddPalav,jogador1,jogador2,jogador3);	
+	do {
+		placar(pista,palavraDescoberta,qtddPalav,jogador);	
 
+		printf("\nJogador %d: Rode a roda!\n", jogador[i+1]);
+		fflush(stdin);
+		rodar = premios();
 
-
-	printf("\nRode a roda!\n");
-	fflush(stdin);
-	rodar = premios();
-
-	if (rodar == 0){
-		printf("Passa a vez!\n");
-		//termina essa rodada e vai para próximo jogador
-	}
-
-	else if(rodar == 0.1){
-		printf("Perdeu tudo!\n");
-		//zerar placar do jogador ativo
-		//termina essa rodada e vai para próximo jogador
-	}
-	else {
-		do{ //perguntar letra até o usuário digitar um caracter válido
-			printf("Uma letra por R$%.2f: ", rodar);
-			fflush(stdin);
-			scanf("%c", &letraescolhida);
-		} while ( letraescolhida < 'A' || ( letraescolhida > 'Z' && letraescolhida < 'a' ) || letraescolhida > 'z' );
+		if (rodar == 0){
+			printf("Passa a vez!\n");
+			//termina essa rodada e vai para próximo jogador
+		}
+	
+		else if(rodar == 0.1){
+			printf("Perdeu tudo!\n");
+			//zerar placar do jogador ativo
+			//termina essa rodada e vai para próximo jogador
+		}
+		else { 
+			do{ //perguntar letra até o usuário digitar um caracter válido
+				printf("Uma letra por R$%.2f: ", rodar);
+				fflush(stdin);
+				scanf("%c", &letraescolhida);
+				//pensar em um jeito de evitar que o usuário repita o mesmo caracter
+				
+			} while ( letraescolhida < 'A' || ( letraescolhida > 'Z' && letraescolhida < 'a' ) || letraescolhida > 'z' ); 
+			
+			if ( letraescolhida >= 'a' && letraescolhida <= 'z') letraescolhida -= 32;
+			
+			acerto = verificaLetra (vetpalavras,palavraDescoberta,letraescolhida,qtddPalav);
+			if (acerto>0) {
+				jogador[i]+=rodar*acerto;
+				totalAcertos += acerto; //armazena total de caracteres descobertos
+				//jogador continua jogando
+			}
+			else{
+				i = (i+1)%3; //pasa para próximo jogador
+			}
+		}
 		
-		if (letraescolhida <= 'z' && letraescolhida >= 'a') 
-			letraescolhida = letraescolhida - 32;
-		acerto = verificaLetra (vetpalavras,palavraDescoberta,letraescolhida,qtddPalav);
-		if (acerto>0) {
-			jogador1+=rodar*acerto;
-			//jogador continua jogando??? não ficou claro no exercício
-		}
-		else{
-			//passa para próximo jogador
-		}
-	}
-	// aqui já devia começar a repetir
-	placar(pista,palavraDescoberta,qtddPalav,jogador1,jogador2,jogador3);
-
+	} while ( totalLetras > totalAcertos + 3 );
 	
+	//implementar o final do programa
+		
+	
+
 system("pause");
 }
 
@@ -73,22 +94,26 @@ float premios(){
 	valor = premios[rand()%13];
 	return valor;
 }
-void prepara(char vetpalavras[][17], char palavraDescoberta[][17], int qtddPalav){ 
-	int i, j;
+int prepara(char vetpalavras[][17], char palavraDescoberta[][17], int qtddPalav){ 
+	int i, j, contagem=0, qtddLetras;
+	
 	for (i=0;i<qtddPalav;i++) { //percorre todas as palavras
-		for (j=0;j<strlen(vetpalavras[i]);j++){ //percorre todas as letras até o tamanho de cada palavra
+		qtddLetras = strlen(vetpalavras[i]);
+		for (j=0;j<qtddLetras;j++){ //percorre todas as letras até o tamanho de cada palavra
 			palavraDescoberta[i][j]='_';
+			contagem++; //conta quantos caracteres existem no total das palavras
 		}
 	}
+	return contagem;
 }
 
-void placar (char pista[], char palavra[][17], int qtdd, float jog1, float jog2, float jog3){
+void placar (char pista[], char palavra[][17], int qtdd, float jog[] ){
 	int i;
 	printf("\t\t\tA palavra está associada com: %s\n\n\t\t\t", pista);
 	for (i=0; i<qtdd; i++) printf("%s\t", palavra[i]);
 	printf("\n\nJogador 1\tJogador 2\tJogador3\n");
 	printf("==========\t==========\t==========\n");
-	printf("R$%.2f\t\tR$%.2f\t\tR$%.2f\n",jog1,jog2,jog3);
+	printf("R$%.2f\t\tR$%.2f\t\tR$%.2f\n",jog[0],jog[1],jog[2]);
 }
 
 int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char letra, int qtddPalav){
@@ -96,12 +121,9 @@ int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char le
 	for (i=0; i<qtddPalav ; i++){ //percorre todas as palavras
 		for (j=0;j<strlen(vetpalavras[i]);j++){ //percorre todas as letras até atingir o tamanho da palavra
 			if (vetpalavras[i][j] == letra) { //compara letra por letra da palavra original
-			//precisa validar para quando o usuário digitar também a letra minúscula correspondente
 				palavraDescoberta[i][j] = letra; //revela a letra na palavra descoberta
-				acert++; //contagem para saber se apareceu letra alguma vez
+				acert++; //contagem para saber quantas letras foram descobertas
 			} 
 		}
 	}
 }
-
-
