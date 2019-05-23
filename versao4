@@ -1,20 +1,3 @@
-/*
-Relatório:
-
--Acho que você estava tendo algum problema com a lógica de captar as palavras com as strings. 
-Pensei que poderíamos diminuir essa preocupação trabalhando para, no início, apenas uma dica com três palavras.
-Quando a lógica daqui funcionar a gente acrescenta o sorteio de outras dicas 
-(até porque acredito que a lógica vai ser bem diferente quando tivermos o arquivo DAT)
-
--Coloquei as funções separadas da main. Dá uma olhada, qualquer dúvida a gente vai se falando.
-
--Acho que vai ser mais fácil de passarmos a rodada para o próximo jogador se os placares forem um vetor, ao invés de 3 variáveis separadas.
-
--Os comentários que eu fiz ao longo do programa são tanto pra explicar (quando estão na frente de um código) 
-quanto para sinalizar o que ainda precisa fazer (quando estão em uma linha vazia)
-
-*/
-
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -30,29 +13,32 @@ main(){
 
 	setlocale(LC_ALL, "Portuguese");
 
-	float jogador[3]= {0,0,0}, rodar;
-	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0;
+	float placarjogador[3]= {0,0,0}, rodar;
+	int i=0, jogador[3], j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0;
 	char vetpalavras[3][17] = {"MOTOR", "EMBREAGEM","ESCAPAMENTO"}, palavraDescoberta[3][17];
-	char pista[17] = {"Automóvel"}, letraescolhida;
+	char pista[17] = {"Automovel"}, letraescolhida;
 	
 	//futuramente adicionar o sorteio da pista
 
 	totalLetras = prepara(vetpalavras,palavraDescoberta,qtddPalav);
 	
 	do {
-		placar(pista,palavraDescoberta,qtddPalav,jogador);	
+		placar(pista,palavraDescoberta,qtddPalav,placarjogador);	
 
 		printf("\nJogador %d: Rode a roda!\n", jogador[i+1]);
 		fflush(stdin);
 		rodar = premios();
+		
+	//	printf("Valor de i é: %d\n", i); // O i está certo, por que no vetor está imprimindo aqueles valores?
 
 		if (rodar == 0){
 			printf("Passa a vez!\n");
 			//termina essa rodada e vai para próximo jogador
 		}
 	
-		else if(rodar == 0.1){
+		else if(rodar == 0.01){
 			printf("Perdeu tudo!\n");
+			placarjogador[i] = 0;
 			//zerar placar do jogador ativo
 			//termina essa rodada e vai para próximo jogador
 		}
@@ -65,7 +51,8 @@ main(){
 				
 			} while ( letraescolhida < 'A' || ( letraescolhida > 'Z' && letraescolhida < 'a' ) || letraescolhida > 'z' ); 
 			
-			if ( letraescolhida >= 'a' && letraescolhida <= 'z') letraescolhida -= 32;
+			if ( letraescolhida >= 'a' && letraescolhida <= 'z')
+				letraescolhida -= 32;
 			
 			acerto = verificaLetra (vetpalavras,palavraDescoberta,letraescolhida,qtddPalav);
 			if (acerto>0) {
@@ -77,7 +64,7 @@ main(){
 				i = (i+1)%3; //pasa para próximo jogador
 			}
 		}
-		
+		i++;
 	} while ( totalLetras > totalAcertos + 3 );
 	
 	//implementar o final do programa
@@ -127,3 +114,8 @@ int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char le
 		}
 	}
 }
+
+/*
+Havia um problema na vetor de jogador. Estavamos usando o mesmo vetor para definir a vez do jogador e para o placar, o que dava um bug já que um é float e outro é inteiro. Tive que separar em dois vetores;
+Por algum motivo, ao falar qual é o jogador, o programa imprime números estranhos, sendo que o i está sendo incrementado corretamente.
+*/
