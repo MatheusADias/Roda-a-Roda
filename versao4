@@ -1,48 +1,40 @@
 #include <stdio.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
 
 float premios(void);
-int prepara(char[],char[]);
+int prepara(char[][17],char[][17],int);
 void placar (char[],char[][17],int,float[]);
-int verificaLetra (char[], char[], char);
+int verificaLetra (char[][17], char[][17], char, int);
 
-main(){
+int main(){
 
-	//setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "Portuguese");
 
 	float placarjogador[3]= {0,0,0}, rodar;
-	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras=0, acerto=0, totalAcertos=0;
+	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0;
 	char vetpalavras[3][17] = {"MOTOR", "EMBREAGEM","ESCAPAMENTO"}, palavraDescoberta[3][17];
 	char pista[17] = {"Automovel"}, letraescolhida;
 	
 	//futuramente adicionar o sorteio da pista
-	for ( j=0; j<qtddPalav; j++) totalLetras += prepara(vetpalavras[j],palavraDescoberta[j]);
+
+	totalLetras = prepara(vetpalavras,palavraDescoberta,qtddPalav);
 	
-	
-	//teste para ver se imprime ok
-	for (i=0; i<3; i++) { 
-		for (j=0; palavraDescoberta[i][j] != '\0'; j++) {
-			printf("%c ", palavraDescoberta[i][j]);
-		}
-		printf(".");
-	}
-	printf("\n");
-			
-		
 	do {
 		placar(pista,palavraDescoberta,qtddPalav,placarjogador);	
 
+    printf("\nAPAGAR ESTA LINHA DEPOIS---Letras descobertas: %d / %d\n", totalAcertos, totalLetras);
+
 		printf("\nJogador %d: Rode a roda!", i+1);
-		fflush(stdin);
+	  fflush(stdin);
 		getchar();
 		rodar = premios();
 
 		if (rodar == 0){
 			printf("Passa a vez!\n");
-			i = (i+1)%3; //termina essa rodada e vai para próximo jogador
+			i = (i+1)%3; //vai para próximo jogador
+      printf("A vez será passada para o jogador %d.", i);
 		}
 	
 		else if(rodar == 0.01f){
@@ -55,20 +47,25 @@ main(){
 				printf("Uma letra por R$%.2f: ", rodar);
 				fflush(stdin);
 				scanf("%c", &letraescolhida);
-				//pensar em um jeito de evitar que o usuário repita o mesmo caracter
 				
 			} while ( letraescolhida < 'A' || ( letraescolhida > 'Z' && letraescolhida < 'a' ) || letraescolhida > 'z' ); 
 			
 			if ( letraescolhida >= 'a' && letraescolhida <= 'z')
 				letraescolhida -= 32;
 			
-			for ( j=0; j<qtddPalav; j++) acerto += verificaLetra (vetpalavras[j],palavraDescoberta[j],letraescolhida);
+			acerto = verificaLetra (vetpalavras,palavraDescoberta,letraescolhida,qtddPalav);
+      
 			if (acerto>0) {
 				placarjogador[i] = placarjogador[i] + rodar*acerto;
 				totalAcertos += acerto; //armazena total de caracteres descobertos
 			}
+      else if (acerto == -1){
+        i = (i+1)%3;//vai para próximo jogador
+        printf("A letra %c já foi descoberta.\nA vez será passada para o jogador %d.", letraescolhida, i);;
+      }
 			else{
-				i = (i+1)%3; //vai para próximo jogador
+        i = (i+1)%3;//vai para próximo jogador
+        printf("Não existe letra %c na palavra.\nA vez será passada para o jogador %d.", letraescolhida, i);
 			}
 		}
 	} while ( totalLetras > totalAcertos + 3 );
@@ -76,8 +73,7 @@ main(){
 	//implementar o final do programa
 		
 	
-
-system("pause");
+return 0;
 }
 
 float premios(){
@@ -87,35 +83,38 @@ float premios(){
 	valor = premios[rand()%12];
 	return valor;
 }
-
-int prepara(char vetpalavras[], char palavraDescoberta[]){ 
-
-	int j, contagem=0, qtddLetras;
-	qtddLetras = strlen(vetpalavras);
+int prepara(char vetpalavras[][17], char palavraDescoberta[][17], int qtddPalav){ 
+	int i, j, contagem=0, qtddLetras;
+	
+	for (i=0;i<qtddPalav;i++) { //percorre todas as palavras
+		qtddLetras = strlen(vetpalavras[i]);
 		for (j=0;j<qtddLetras;j++){ //percorre todas as letras até o tamanho de cada palavra
-			palavraDescoberta[j]='_';
+			palavraDescoberta[i][j]='_';
 			contagem++; //conta quantos caracteres existem no total das palavras
 		}
+	}
 	return contagem;
 }
 
 void placar (char pista[], char palavra[][17], int qtdd, float jog[] ){
 	int i;
-	printf("A palavra está associada com: %s\n", pista);
-	for (i=0; i<qtdd; i++) printf("%s ", palavra[i]);
+	printf("\n\t\t\tA palavra está associada com: %s\n\n\t\t\t", pista);
+	for (i=0; i<qtdd; i++) printf("%s\t", palavra[i]);
 	printf("\n\nJogador 1\tJogador 2\tJogador3\n");
 	printf("==========\t==========\t==========\n");
 	printf("R$%.2f\t\tR$%.2f\t\tR$%.2f\n",jog[0],jog[1],jog[2]);
 }
 
-int verificaLetra (char vetpalavras[], char palavraDescoberta[], char letra ){
+int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char letra, int qtddPalav){
 	int i, j, acert=0;
-	for (j=0;j<strlen(vetpalavras);j++){ //percorre todas as letras até atingir o tamanho da palavra
-		if (vetpalavras[j] == letra) { //compara letra por letra da palavra original
-			palavraDescoberta[j] = letra; //revela a letra na palavra descoberta
-			acert++; //contagem para saber quantas letras foram descobertas
-		} 
+	for (i=0; i<qtddPalav ; i++){ //percorre todas as palavras
+		for (j=0;j<strlen(vetpalavras[i]);j++){ //percorre todas as letras até atingir o tamanho da palavra
+      if (palavraDescoberta[i][j] == letra) return -1; //se a letra já foi descoberta, retorna -1
+			else if (vetpalavras[i][j] == letra ) { //compara letra por letra da palavra original para ver se é igual
+				palavraDescoberta[i][j] = letra; //revela a letra na palavra descoberta
+				acert++; //contagem para saber quantas letras foram descobertas
+			} 
+		}
 	}
-	return acert;
+  return acert;
 }
-
