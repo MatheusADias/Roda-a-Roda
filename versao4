@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include <windows.h>
 
 float premios(void);
 int prepara(char[][17],char[][17],int);
@@ -13,9 +14,9 @@ int main(){
 	setlocale(LC_ALL, "Portuguese");
 
 	float placarjogador[3]= {0,0,0}, rodar;
-	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0;
+	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0, regressiva;
 	char vetpalavras[3][17] = {"MOTOR", "EMBREAGEM","ESCAPAMENTO"}, palavraDescoberta[3][17];
-	char pista[17] = {"Automovel"}, letraescolhida;
+	char pista[17] = {"Automovel"}, letraescolhida, palavrafinal[17];
 	
 	//futuramente adicionar o sorteio da pista
 
@@ -69,8 +70,22 @@ int main(){
 			}
 		}
 	} while ( totalLetras > totalAcertos + 3 );
+	// -------------------------
+	//Pelo visto não é possível fazer uma contagem regressiva em C junto com scanf e gets. êê professora hein
+	do{
+
+	printf("Jogador %d: Faltam %d letras para completar a palavra.\n", i, totalLetras-totalAcertos);
+	printf("Você tem 5 segundos para pensar e depois digitar a palavra.\n");
+	printf("Valendo R$ %.2f, a palavra é: ", rodar+placarjogador[i]);
+	gets(palavrafinal);
+		for(regressiva=5;regressiva!=0; regressiva--){
+		printf("%d\n", regressiva);
+		Sleep(1000);
+	}  i = (i+1)%3;
+ 
+} while (totalLetras != totalAcertos);
 	
-	//implementar o final do programa
+	// --------------------------
 		
 	
 return 0;
