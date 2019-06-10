@@ -86,8 +86,6 @@ int main(void)
 	jogo[sorteio].vetpalavras[0];
 		
 	printf("\nPista: %s\nPalavras: %s %s %s\n\n", jogo[sorteio].pista, jogo[sorteio].vetpalavras[0], jogo[sorteio].vetpalavras[1], jogo[sorteio].vetpalavras[2]);
-
-  	srand(time(NULL));
   	
 //esse FOR a seguir é só para mostrar que o struct está funcionando corretamente:
   	
