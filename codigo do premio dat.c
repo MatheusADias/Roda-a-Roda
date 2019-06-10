@@ -63,4 +63,6 @@ dava pra ler usando fscanf(arq,%f %s\n) e daria para criar um loop para ler vár
 o valor dos premios que serão armazenados. == 1 é para caso dê tudo certo na leitura (como se fosse um teste de erro).
 
 depois disso acho que dá para entender.
+
+falta adicionar esse código em uma função no arquivo principal
 */
