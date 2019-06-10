@@ -71,7 +71,8 @@ int main(){
 		}
 	} while ( totalLetras > totalAcertos + 3 );
 	// -------------------------
-	//Pelo visto não é possível fazer uma contagem regressiva em C junto com scanf e gets. êê professora hein
+	//Pelo visto, para a contagem regressiva funcionar junto como scanf ou gets, é necessário usar multithread. É complexo, preciso de mais tempo.
+	//fiz uma pergunta no stackoverflow: https://pt.stackoverflow.com/questions/390165/tem-como-fazer-um-timeout-junto-com-scanf-ou-gets-em-c
 	do{
 
 	printf("Jogador %d: Faltam %d letras para completar a palavra.\n", i, totalLetras-totalAcertos);
@@ -133,3 +134,17 @@ int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char le
 	}
   return acert;
 }
+/*
+Eu criei quatro arquivos hoje: PREMIOS.DAT, PALAVRAS.DAT (os dois contém informações sobre os premios em float e palavras em strings),
+codigos palavras dat (contém todo o código necessário para pegar a pista junto com as palavras relacionadas do arquivo palavras.dat), e
+codigo do premio dat (contém o código necessário para sortear um valor em float do arquivo premios dat).
+
+Agora só falta:
+- A gente adicionar esses códigos no corpo desse arquivo com o uso de funções;
+- Corrigir erros existentes;
+- Ver uma forma de fazer aquela contagem regressiva (é mais dificil do que parece, não estou conseguindo fazer a contagem junto com scanf);
+- Terminar o final do código
+
+Valeu :D
+*/
+
