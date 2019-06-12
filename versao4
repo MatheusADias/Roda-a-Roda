@@ -4,11 +4,20 @@
 #include <string.h>
 #include <windows.h>
 
+typedef struct
+{
+	char pista[17], sorteio[17];
+	int qtd;
+	char vetpalavras[3][17];
+	char descpalavras[3][17];
+} Jogo;
+
 void ler_premios(float[]);
 float sorteia_premios(float[]);
 int prepara(char[][17],char[][17],int);
 void placar (char[],char[][17],int,float[]);
 int verificaLetra (char[][17], char[][17], char, int);
+Jogo ler_jogo(void);
 
 int main(){
 
@@ -18,8 +27,10 @@ int main(){
 	int i=0, j, sorteio,sorteiopalavras, qtddPalav=3, totalLetras, acerto, totalAcertos=0, regressiva;
 	char vetpalavras[3][17] = {"MOTOR", "EMBREAGEM","ESCAPAMENTO"}, palavraDescoberta[3][17];
 	char pista[17] = {"Automovel"}, letraescolhida, palavrafinal[17];
+	Jogo jogo;
 	
-	//futuramente adicionar o sorteio da pista
+	jogo = ler_jogo();
+	//printf("\nPista: %s\nPalavras: %s %s %s\n\n", jogo.pista, jogo.vetpalavras[0], jogo.vetpalavras[1], jogo.vetpalavras[2]);
 
 	totalLetras = prepara(vetpalavras,palavraDescoberta,qtddPalav);
 	ler_premios(premios);
@@ -155,6 +166,46 @@ int verificaLetra (char vetpalavras[][17], char palavraDescoberta[][17], char le
 		}
 	}
   return acert;
+}
+
+Jogo ler_jogo(void){	
+	int qtd, i,j, sorteio;
+	char pista[17], vetpalavras[3][17];
+	Jogo jogo[5];
+	FILE *arq;
+	arq = fopen("PALAVRAS.dat", "r");
+	if (arq == NULL)
+	{
+		printf("\nErro, nao foi possivel abrir o arquivo\n");
+ 		exit(1);
+	}
+	for (j=0;j<5;j++)
+	{
+		if (fscanf(arq,"%16s %d", pista, &qtd) != 2) //primeiro faz a leitura do nome e da quantidade de palavras
+		{ //se nao conseguiu ler os 2 campos
+			if (feof(arq)) //é fim do arquivo ?
+				printf("* ok, fim de arquivo\n");
+			else
+				printf("\nErro no conteudo do arquivo\n");
+			exit(0);
+    	}
+		for (i = 0; i < qtd; i++)
+		{
+			if (fscanf(arq, "%16s", vetpalavras[i]) != 1)
+			{
+				printf("\nErro no conteudo do arquivo\n");
+ 				exit(2);
+      		}
+    	}
+		strcpy(jogo[j].pista, pista);
+		jogo[j].qtd = qtd;
+		for (i = 0; i < qtd; i++)
+			strcpy(jogo[j].vetpalavras[i], vetpalavras[i]);
+	}
+  	srand(time(NULL));
+	sorteio = rand()%5;
+	fclose(arq);
+	return jogo[sorteio];
 }
 
 
