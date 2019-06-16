@@ -28,7 +28,6 @@ int main(){
 	Jogo jogo;
 	
 	jogo = ler_jogo();
-	printf("\nAPAGAR ESTA LINHA DEPOIS---Pista:%s\tQtd:%d\tPalavras: %s %s %s\n\n", jogo.pista, jogo.qtd, jogo.vetpalavras[0], jogo.vetpalavras[1], jogo.vetpalavras[2]);
 	totalLetras = prepara(&jogo);
 	ler_premios(premios);
 	
