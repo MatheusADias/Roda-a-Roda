@@ -24,7 +24,7 @@ int verificaPalavra (Jogo);
 int main(){
 	float placarjogador[3]= {0,0,0}, rodar, premios[12];
 	int i=0, j, totalLetras, acerto, totalAcertos=0, contFinal=0, vencedor=-1;
-	char letraescolhida, palavraFinal[3][17];
+	char letraescolhida;
 	Jogo jogo;
 	
 	jogo = ler_jogo();
