@@ -206,7 +206,7 @@ int prepara(Jogo*jogo){
 
 void placar (Jogo jogo, float jog[], int iVencedor ){
 	int i, j;
-	printf("\n\t\tA dica eh: %s\n\n\t\t", jogo.pista);
+	printf("\n\t\tA dica eh: %s\n\n\t\t\t", jogo.pista);
 	for (i=0; i<jogo.qtd; i++) {
 		for (j=0;j<strlen(jogo.vetpalavras[i]);j++){
 			if ( iVencedor == -1 ) printf(" %c ", jogo.descpalavras[i][j]); 
