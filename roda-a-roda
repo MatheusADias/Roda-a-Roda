@@ -1,3 +1,11 @@
+/*
+Feito por:
+
+- Lucas Gallo SP3030
+- Matheus Augusto SP3030687
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,6 +35,16 @@ int main(){
 	jogo = ler_jogo();
 	totalLetras = prepara(&jogo);
 	ler_premios(premios);
+	
+	/* boas vindas: */
+	printf("Instituto Federal de Sao Paulo\nProjeto de Logica de Programacao para o primeiro semestre no curso de Analise e Desenvolvimento de Sistemas.\nProf: Jusceli.\n\n");
+	printf("=============================================\n");
+	printf("\tRoda a Roda do Silvio Santos!\n\nJogo feito com muito amor por:\n\n\tLucas Gallo (SP)\n\tMatheus Augusto (SP3030687)\n");
+	printf("=============================================\n\nPressione qualquer tecla para iniciar o jogo.\n");
+	
+	fflush(stdin);
+	getch();
+	system("cls");
 	
 	do {
 		placar(jogo,placarjogador,vencedor);	
@@ -108,6 +126,10 @@ int main(){
 		placarjogador[i] += rodar;
       	system("cls");
 		placar (jogo, placarjogador, vencedor );
+		
+		printf("\nPressione qualquer tecla para finalizar.");
+		fflush(stdin);
+		getch();
 		return 1;
 	}
 	else{
@@ -119,7 +141,10 @@ int main(){
 	
 	placar (jogo, placarjogador, vencedor );
 	printf("\nFim de jogo! Nao houve vencedor.\n");
-		
+
+	printf("\nPressione qualquer tecla para finalizar.");
+	fflush(stdin);
+	getch();
 	
 return 2;
 }
@@ -133,6 +158,9 @@ Jogo ler_jogo(void){
 	if (arq == NULL)
 	{
 		printf("\nErro, nao foi possivel abrir o arquivo\n");
+		printf("\nPressione qualquer tecla para finalizar.");
+		fflush(stdin);
+		getch();
  		exit(1);
 	}
 	for (j=0;j<5;j++)
