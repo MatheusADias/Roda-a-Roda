@@ -9,7 +9,6 @@ typedef struct
 	int qtd;
 	char vetpalavras[3][17];
 	char descpalavras[3][17];
-	char descpalavrasFinal[3][17];
 } Jogo;
 
 Jogo ler_jogo(void);
