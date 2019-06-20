@@ -1,8 +1,8 @@
 /*
 Feito por:
 
-- Lucas Gallo SP3030
-- Matheus Augusto SP3030687
+- Lucas Gallo
+- Matheus Augusto
 
 */
 
